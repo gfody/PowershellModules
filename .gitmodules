@@ -1,0 +1,3 @@
+[submodule "PsGoogle"]
+	path = PsGoogle
+	url = git://github.com/gfody/PsGoogle
