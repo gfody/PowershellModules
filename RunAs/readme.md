@@ -25,7 +25,7 @@ See also [Working with Passwords, Secure Strings and Credentials in Windows Powe
 
 
 # installation #
-from [PowerShell Gallery](https://www.powershellgallery.com/) (requires Powershell V5 or Win10)..
+from [PowerShell Gallery](https://www.powershellgallery.com/packages/RunAs) (requires Powershell V5 or Win10)..
 ```powershell
 Install-Module RunAs
 ```
