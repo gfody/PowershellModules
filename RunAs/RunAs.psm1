@@ -34,15 +34,15 @@ public static class RunAs
 	[DllImport("kernel32")]
 	private static extern bool CloseHandle(IntPtr hObject);
 
-	private static void SplitCredential(PSCredential credential, out string user, out string domain, out string password)
+	private static void SplitUsername(string username, out string user, out string domain)
 	{
-		var parts = credential.UserName.Split('\\', '@');
+		var parts = username.Split('\\', '@');
 		if (parts.Length == 1)
 		{
 			user = parts[0];
 			domain = Environment.UserDomainName;
 		}
-		else if (credential.UserName.Contains("@"))
+		else if (username.Contains("@"))
 		{
 			user = parts[0];
 			domain = parts[1];
@@ -52,9 +52,6 @@ public static class RunAs
 			user = parts[1];
 			domain = parts[0];
 		}
-		IntPtr strptr = Marshal.SecureStringToGlobalAllocUnicode(credential.Password);
-		password = Marshal.PtrToStringUni(strptr);
-		Marshal.ZeroFreeGlobalAllocUnicode(strptr);
 	}
 
 	public static void Start(PSCredential credential, bool noProfile, bool env, bool netOnly, string applicationName, string commandLine, string currentDirectory)
@@ -78,11 +75,11 @@ public static class RunAs
 
 		try
 		{
-			string domain, username, password;
-			SplitCredential(credential, out username, out domain, out password);
+			string domain, username;
+			SplitUsername(credential.UserName, out username, out domain);
 
 			PROCESS_INFORMATION p;
-			if (!CreateProcessWithLogonW(username, domain, password, logonFlags, applicationName, commandLine, creationFlags, lpEnvironment, currentDirectory, ref s, out p))
+			if (!CreateProcessWithLogonW(username, domain, credential.GetNetworkCredential().Password, logonFlags, applicationName, commandLine, creationFlags, lpEnvironment, currentDirectory, ref s, out p))
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 
 			CloseHandle(p.hProcess);
@@ -97,11 +94,14 @@ public static class RunAs
 '@
 
 function RunAs ([switch]$noProfile, [switch]$env, [switch]$netOnly, [Parameter(Mandatory=$true)][PSCredential]$user, [Parameter(Mandatory=$true)][string]$program, [Parameter(ValueFromRemainingArguments=$true)][string]$arguments) {
-    if (!(test-path $program)) {
-        $cmd = (get-command $program -ea ignore)
-        if ($cmd -and $cmd.path) { $program = $cmd.path }
+    try {
+        if (!(test-path $program)) {
+            $cmd = (get-command $program -ea ignore)
+            if ($cmd -and $cmd.path) { $program = $cmd.path }
+        }
+        [RunAs]::Start($user, $noProfile, $env, $netOnly, $program, " $([Environment]::ExpandEnvironmentVariables($arguments))", $pwd.Path)
     }
-    [RunAs]::Start($user, $noProfile, $env, $netOnly, $program, " $([Environment]::ExpandEnvironmentVariables($arguments))", $pwd.Path)
+    catch { write-error $_.Exception.Message }
 <#
 .Synopsis
     A version of the Windows 'runas' command that accepts a PSCredential instead of prompting for a password.
