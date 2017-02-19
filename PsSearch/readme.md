@@ -67,3 +67,16 @@ Parameter | Description
 ----------|------------
 path | Path to search, defaults to current directory.
 
+
+
+# installation #
+from [PowerShell Gallery](https://www.powershellgallery.com/packages/PsSearch) (requires Powershell V5 or Win10)..
+```powershell
+Install-Module PsSearch
+```
+manually..
+```powershell
+ni "$(($env:PSModulePath -split ';')[0])\PsSearch\PsSearch.psm1" -f -type file -value (irm "https://raw.githubusercontent.com/gfody/PowershellModules/master/PsSearch/PsSearch.psm1")
+
+
+
