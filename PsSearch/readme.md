@@ -68,9 +68,10 @@ Parameter | Description
 path | Path to search, defaults to current directory.
 
 
+##usage examples
+![Screenshot](screenshot.png)
+(colorization of FileInfo objects is from [PsColor](https://github.com/Davlind/PSColor))
 
-#
-------------------
 ##installation
 from [PowerShell Gallery](https://www.powershellgallery.com/packages/PsSearch) (requires Powershell V5 or Win10)..
 ```powershell
