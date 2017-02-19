@@ -92,6 +92,8 @@ function Search-Index ($s, $filePattern, [string]$path = $pwd, [string]$director
     if ($directoryPattern) { $s += " and system.itemPathDisplay like '$($directoryPattern.Replace('*','%').Replace('?','_'))'" }
     if ($groupBy) { $s = "group on system.$groupBy aggregate count() over ($s)" }
 
+    if ($query) { Write-Host $s -Foreground yellow }
+
     $d = New-Object Data.DataSet
     $total = (New-Object Data.OleDb.OleDbDataAdapter $s, 'Provider=Search.CollatorDso').Fill($d)
     if ($count) { $total }
