@@ -22,8 +22,8 @@ groupBy | Return counts grouped by the specified field, e.g.: `FileExtension`, `
 ##Search-Files
 Searches for patterns in files and displays the results. Reads FileInfo objects from stdin or hits the filesystem with the specified path and file pattern. When Search-Files is used without an input stream it detects and skips binary files.
 ```powershell
-Search-Files [[-pat] <String>] [[-file] <Object>] [[-path] <String>] [[-context] <Int32[]>] [-caseSensitive]
-[-noTraverse] [-simple] [<CommonParameters>]
+Search-Files [[-pat] <String>] [[-file] <Object>] [[-path] <String>] [[-context] <Int32[]>]
+[-caseSensitive] [-noTraverse] [-simple] [<CommonParameters>]
 ```
 **Aliases:** *none*
 
@@ -69,7 +69,9 @@ path | Path to search, defaults to current directory.
 
 
 
-# installation #
+#
+------------------
+##installation
 from [PowerShell Gallery](https://www.powershellgallery.com/packages/PsSearch) (requires Powershell V5 or Win10)..
 ```powershell
 Install-Module PsSearch
@@ -77,6 +79,6 @@ Install-Module PsSearch
 manually..
 ```powershell
 ni "$(($env:PSModulePath -split ';')[0])\PsSearch\PsSearch.psm1" -f -type file -value (irm "https://raw.githubusercontent.com/gfody/PowershellModules/master/PsSearch/PsSearch.psm1")
-
+```
 
 
