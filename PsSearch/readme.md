@@ -1,4 +1,4 @@
-##Search-Index
+## Search-Index
 Queries the Windows Search index, returns FileInfo objects.
 ```powershell
 Search-Index [[-s] <Object>] [[-filePattern] <Object>] [[-path] <String>] [[-directoryPattern] <String>]
@@ -19,7 +19,7 @@ count | Return just the number of matches found instead of the actual FileInfo o
 groupBy | Return counts grouped by the specified field, e.g.: `FileExtension`, `FileOwner` (see [Windows Properties](https://msdn.microsoft.com/en-us/library/windows/desktop/bb760699(v=vs.85).aspx) for available fields.) If you combine `groupBy` with `count` the count of distinct groups is returned.
 
 
-##Search-Files
+## Search-Files
 Searches for patterns in files and displays the results. Reads FileInfo objects from stdin or hits the filesystem with the specified path and file pattern. When Search-Files is used without an input stream it detects and skips binary files.
 ```powershell
 Search-Files [[-pat] <String>] [[-file] <Object>] [[-path] <String>] [[-context] <Int32[]>]
@@ -38,7 +38,7 @@ noTraverse | Do not traverse subfolders.
 context | Context lines to be included in output, e.g.: `0,4` (0 before and 4 after), defaults to `3` (3 before and 3 after).
 
 
-##Search-Text
+## Search-Text
 Pipes `Search-Index` to `Search-Files` and derives a regular expression from the search string to use for matching and highlighting. When `Search-Index` returns nothing for any reason (the path is not indexed, or the index is unavailable, etc.) `Search-Files` will fallback on scanning the filesystem itself, so you can use `Search-Text` regardless of the indexed status of your files and still get results. A warning is printed out when there is nothing indexed below the specified path.
 ```powershell
 Search-Text [[-s] <Object>] [[-filePattern] <Object>] [[-path] <String>] [[-directoryPattern] <String>]
@@ -68,11 +68,11 @@ Parameter | Description
 path | Path to search, defaults to current directory.
 
 
-##usage examples
+## usage examples
 ![Screenshot](screenshot.png)
 (colorization of FileInfo objects is from [PsColor](https://github.com/Davlind/PSColor))
 
-##installation
+## installation
 from [PowerShell Gallery](https://www.powershellgallery.com/packages/PsSearch) (requires Powershell V5 or Win10)..
 ```powershell
 Install-Module PsSearch
