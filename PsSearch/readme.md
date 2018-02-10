@@ -56,7 +56,7 @@ top | `top` parameter for `Search-Index`, this has no effect in the case of fall
 noTraverse | `noTraverse` for `Search-Index` and `Search-Files`.
 query | `query` parameter for `Search-Index`, this has no effect in the case of fallback to filesystem.
 
-##Get-IndexedPaths
+## Get-IndexedPaths
 Lists all locations in the Windows Search index at or below the specified path.
 ```powershell
 Get-IndexedPaths [[-path] <String>] [<CommonParameters>]
