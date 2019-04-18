@@ -12,7 +12,12 @@ $mycreds = New-Object Management.Automation.PSCredential('domain\username', (Con
 # handy function to do it for you..
 function stashcreds ($var) {
     $cred = Get-Credential
-    [IO.File]::AppendAllText($profile, "`n`$$var = New-Object Management.Automation.PSCredential('$($cred.Username)', (ConvertTo-SecureString '$(ConvertFrom-SecureString $cred.Password)'))`n")
+    If ($cred.Password.Length -eq 0) {
+        Write-Host "ERROR: No password provided. Credentials were not saved!" -ForegroundColor Red
+        Exit 1
+    }
+    $content = "`n`$$var = New-Object Management.Automation.PSCredential('$($cred.Username)', (ConvertTo-SecureString '$(ConvertFrom-SecureString $cred.Password)'))`n"
+    Add-Content -Encoding Ascii -Path $profile -Value $content
 }
 ```
 
