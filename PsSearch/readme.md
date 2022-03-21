@@ -70,6 +70,7 @@ path | Path to search, defaults to current directory.
 
 ## usage examples
 ![Screenshot](screenshot.png)
+
 (colorization of FileInfo objects is from [PsColor](https://github.com/Davlind/PSColor))
 
 ## installation
